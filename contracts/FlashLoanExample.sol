@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -12,21 +11,15 @@ contract FlashLoanExample is FlashLoanSimpleReceiverBase {
 
     constructor(IPoolAddressesProvider provider)
         public
-        FlashLoanSimpleReceiverBase
+        FlashLoanSimpleReceiverBase(provider)
     {}
 
     function createFlashLoan(address asset, uint256 amount) external {
         address receiver = address(this);
-        bytes memory params = ""; // use this to pass arbitary data to executeOperation
+        bytes memory params = ""; // use this to pass arbitrary data to executeOperation
         uint16 referralCode = 0;
 
-        POOL.flashLoanSimple(
-            receiverAddress,
-            asset,
-            amount,
-            params,
-            referralCode
-        );
+        POOL.flashLoanSimple(receiver, asset, amount, params, referralCode);
     }
 
     function executeOperation(
